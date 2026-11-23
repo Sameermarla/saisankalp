@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   LayoutDashboard, Package, ShoppingBag, LogOut, Plus, Trash2, Search,
   X, Loader2, Truck, MapPin, Clock, CheckCircle2, Calendar, TrendingUp,
-  IndianRupee, AlertCircle, Edit3, ArrowLeft, RefreshCw
+  IndianRupee, AlertCircle, Edit3, ArrowLeft, RefreshCw, Upload
 } from 'lucide-react';
 import { useAdmin } from '@/context/AdminContext';
 import { useRouter } from '@/context/RouterContext';
@@ -709,6 +709,23 @@ function ProductModal({
     featured: initialProduct?.featured ?? true,
   });
 
+  const [imageFileName, setImageFileName] = useState('');
+  const [dragActive, setDragActive] = useState(false);
+
+  const handleImageFile = (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      showToast('Please upload a valid image file (PNG, JPG, WEBP)', 'error');
+      return;
+    }
+    setImageFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result as string;
+      setForm(prev => ({ ...prev, image_url: result, images: result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const slugify = (text: string) =>
     text.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
 
@@ -840,14 +857,67 @@ function ProductModal({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1">Primary Image URL</label>
-            <input
-              type="url"
-              value={form.image_url}
-              onChange={e => setForm({ ...form, image_url: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-amber-500"
-              placeholder="https://..."
-            />
+            <label className="block text-xs font-semibold text-gray-700 mb-2">Product Image *</label>
+            {form.image_url ? (
+              <div className="relative border border-gray-200 rounded-xl p-3 bg-gray-50 flex items-center gap-4">
+                <img
+                  src={form.image_url}
+                  alt="Product preview"
+                  className="w-20 h-20 object-cover rounded-lg border border-gray-200 shadow-sm"
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-800 truncate">
+                    {imageFileName || 'Uploaded Product Image'}
+                  </p>
+                  <p className="text-xs text-green-600 font-medium mt-0.5">✓ Image loaded & ready</p>
+                  <label className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-amber-700 hover:text-amber-800 cursor-pointer">
+                    <Upload className="w-3.5 h-3.5" /> Change Image
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={e => e.target.files?.[0] && handleImageFile(e.target.files[0])}
+                    />
+                  </label>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm(prev => ({ ...prev, image_url: '', images: '' }));
+                    setImageFileName('');
+                  }}
+                  className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg hover:bg-white transition-colors"
+                  title="Remove image"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            ) : (
+              <label
+                onDragOver={e => { e.preventDefault(); setDragActive(true); }}
+                onDragLeave={() => setDragActive(false)}
+                onDrop={e => {
+                  e.preventDefault();
+                  setDragActive(false);
+                  if (e.dataTransfer.files?.[0]) handleImageFile(e.dataTransfer.files[0]);
+                }}
+                className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
+                  dragActive ? 'border-amber-500 bg-amber-50/50' : 'border-gray-200 hover:border-amber-400 bg-gray-50/50'
+                }`}
+              >
+                <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-2 shadow-sm">
+                  <Upload className="w-6 h-6" />
+                </div>
+                <span className="text-sm font-semibold text-gray-800">Click to upload product image</span>
+                <span className="text-xs text-gray-500 mt-1">or drag & drop here (PNG, JPG, WEBP)</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={e => e.target.files?.[0] && handleImageFile(e.target.files[0])}
+                />
+              </label>
+            )}
           </div>
 
           <label className="flex items-center gap-2 cursor-pointer pt-2">
