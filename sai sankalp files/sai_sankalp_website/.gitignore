@@ -1,0 +1,48 @@
+# =================================================================
+#   Sai Sankalp — .gitignore
+# =================================================================
+
+# Secrets & credentials — NEVER commit these
+.env
+serviceAccountKey.json
+firebase-credentials.json
+
+# Database files
+data/saisankalp.db
+data/*.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+venv/
+.venv/
+
+# Java
+*.class
+*.jar
+*.war
+
+# IDE & editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Node (if added later)
+node_modules/
+package-lock.json
+
+# OS
+desktop.ini

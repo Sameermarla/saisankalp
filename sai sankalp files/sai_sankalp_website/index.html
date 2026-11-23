@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Sankalp | Handmade Paper Crafts & Woolens</title>
+    <meta name="description" content="Discover premium handmade paper crafts, embroidered woolen handkerchiefs, and handcrafted woolen dolls at Sai Sankalp. Carefully crafted by local artisans.">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Sai Sankalp | Handmade Paper Crafts & Woolens">
+    <meta property="og:description" content="Premium handmade paper crafts, embroidered woolen handkerchiefs, and handcrafted woolen dolls. Carefully crafted by local Indian artisans.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="images/hero_crafts.png">
+    <meta property="og:locale" content="en_IN">
+    <meta name="theme-color" content="#D36E50">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <!-- Google Fonts: Playfair Display for headers, Plus Jakarta Sans for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Razorpay Checkout SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+    <!-- Sticky Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="logo" style="display: flex; align-items: center; gap: 10px;">
+                <img src="images/logo.png" alt="Sai Sankalp Logo" style="height: 42px; width: 42px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                <span class="logo-text">Sai <span class="accent">Sankalp</span></span>
+            </a>
+            
+            <button type="button" class="nav-hamburger" id="navHamburger" aria-label="Toggle Navigation Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">Our Story</a></li>
+                <li><a href="#shop" class="nav-link">Shop</a></li>
+                <li><a href="#custom-order" class="nav-link">Bespoke Orders</a></li>
+            </ul>
+
+            <div class="nav-actions" style="display: flex; align-items: center; gap: 10px;">
+                <!-- Search Bar with suggestions -->
+                <div class="search-wrapper" id="searchWrapper">
+                    <div style="position: relative; display: flex; align-items: center; width: 100%;">
+                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 10px; color: var(--text-secondary); font-size: 0.85rem;"></i>
+                        <input type="text" id="storefrontSearchInput" placeholder="Search creations..." style="width: 100%; padding: 8px 10px 8px 30px; border: 1px solid var(--border-color); border-radius: 6px; font-family: inherit; font-size: 0.85rem; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <div class="search-suggestions-panel" id="searchSuggestionsPanel"></div>
+                </div>
+                
+                <!-- Wishlist Toggle Dropdown Button -->
+                <div class="wishlist-wrapper" style="position: relative; margin-right: 8px;">
+                    <button type="button" class="btn btn-secondary" id="btnWishlistToggle" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; background: var(--bg-secondary); border: 1px solid var(--border-color);">
+                        <i class="fa-solid fa-heart" style="color: #e74c3c;"></i> Wishlist (<span id="wishlistCount">0</span>)
+                    </button>
+                    <!-- Wishlist Dropdown Panel -->
+                    <div class="search-suggestions-panel" id="wishlistPanel" style="width: 260px; right: 0; left: auto; padding: 10px; box-sizing: border-box;">
+                        <h4 style="margin-bottom: 8px; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; color: var(--text-primary);">My Wishlist</h4>
+                        <div id="wishlistItemsList" style="max-height: 200px; overflow-y: auto;">
+                            <!-- populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Mode Toggle -->
+                <div class="test-mode-toggle-wrap" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; background: var(--bg-secondary); border: 1px solid var(--border-color); margin: 0 4px;">
+                    <span id="lblTestMode" style="color: var(--text-secondary); display: flex; align-items: center; gap: 4px;"><i class="fa-solid fa-flask"></i> Test Mode</span>
+                    <label class="switch" style="margin: 0;">
+                        <input type="checkbox" id="toggleTestMode">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button class="btn btn-secondary" id="btnAdminPanel" style="display: none; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                    <i class="fa-solid fa-user-shield"></i> Admin Panel
+                </button>
+                <button class="btn btn-secondary" id="btnCustomerDashboard" style="display: none; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                    <i class="fa-solid fa-clock-rotate-left"></i> My Orders
+                </button>
+                <button class="btn btn-secondary" id="btnSignOut" style="display: none; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </button>
+                <button class="cart-toggle-btn" id="cartToggleBtn" aria-label="Open shopping cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+ 
+    <!-- Test Mode Warning Banner -->
+    <div id="testModeBanner" style="display: none; text-align: center; background: #e67e22; color: white; font-size: 0.85rem; font-weight: bold; padding: 8px 16px; position: sticky; top: 70px; z-index: 999; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <i class="fa-solid fa-triangle-exclamation"></i> TEST MODE ACTIVE &mdash; Simulated Sandbox Environment (Isolated Database)
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-tagline">100% Handcrafted Heritage</span>
+            <h1 class="hero-title">Crafted with Patience,<br><span class="accent-text">Woven with Love</span></h1>
+            <p class="hero-description">Bringing you a curated selection of organic, pressed-flower paper crafts, fine embroidered woolen handkerchiefs, and charming woolen dolls knitted with high-quality yarn.</p>
+            <div class="hero-buttons">
+                <a href="#shop" class="btn btn-primary">Explore Crafts</a>
+                <a href="#about" class="btn btn-secondary">Our Story</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- About / Story Section -->
+    <section class="about-section" id="about" data-reveal>
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-image-wrapper">
+                    <div class="about-image-bg"></div>
+                    <img src="images/hero_crafts.png" alt="Artisan craft materials and wool" class="about-img" loading="lazy">
+                </div>
+                <div class="about-content">
+                    <span class="section-tag">Made by Human Hands</span>
+                    <h2 class="section-title">The Beauty of Imperfect Perfection</h2>
+                    <p class="about-text">At Sai Sankalp, every single piece tells a unique story. From the organic fibers pressed into our handmade paper crafts to the delicate embroidery on our woolen handkerchiefs and the custom-knitted smiles of our woolen dolls, we preserve time-tested skills.</p>
+                    <p class="about-text">By working closely with local craftspeople, we offer eco-friendly, highly tactile items that celebrate texture, detail, and genuine warmth. No two items are identical—making your choice uniquely yours.</p>
+                    <div class="features-row">
+                        <div class="feature-item">
+                            <i class="fa-solid fa-leaf"></i>
+                            <span>Organic Materials</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-heart"></i>
+                            <span>Fair Trade & Local</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-scissors"></i>
+                            <span>Fully Customisable</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop / Products Section -->
+    <section class="shop-section" id="shop" data-reveal>
+        <div class="section-container">
+            <div class="shop-header">
+                <div class="shop-header-text">
+                    <span class="section-tag">Our Collection</span>
+                    <h2 class="section-title">Explore Our Creations</h2>
+                </div>
+            <div class="storefront-layout">
+                <!-- Filters Sidebar (Left column) -->
+                <aside class="filters-sidebar" id="filtersSidebar">
+                    <!-- Sorting -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">Sort Creations</h3>
+                        <select id="filterSortBy" style="width: 100%; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-family: inherit; font-size: 0.85rem; background-color: var(--bg-primary); color: var(--text-primary); cursor: pointer;">
+                            <option value="popularity">Popularity (Rating)</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="newest">Newest Creations</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Checkboxes -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">Craft Categories</h3>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="category-filter-check" value="all" checked id="catCheckAll">
+                            <span>All Categories</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="category-filter-check" value="paper">
+                            <span>Paper Crafts</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="category-filter-check" value="kerchief">
+                            <span>Woolen Handkerchiefs</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="category-filter-check" value="doll">
+                            <span>Woolen Dolls</span>
+                        </label>
+                    </div>
+
+                    <!-- Brand Checkboxes -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">Select Artisans</h3>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="brand-filter-check" value="all" checked id="brandCheckAll">
+                            <span>All Artisans</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="brand-filter-check" value="Sai Sankalp">
+                            <span>Sai Sankalp Crafts</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="brand-filter-check" value="Artisan Crafts">
+                            <span>Artisan Crafts</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="brand-filter-check" value="Traditional Weavers">
+                            <span>Traditional Weavers</span>
+                        </label>
+                    </div>
+
+                    <!-- Price Range Slider -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">Price Range</h3>
+                        <div class="price-range-slider">
+                            <input type="range" id="priceRangeSlider" min="0" max="2000" value="2000" step="50" aria-label="Filter products by price range">
+                            <div class="price-labels">
+                                <span>Min: ₹0</span>
+                                <span>Max: <strong id="priceRangeMaxLabel">₹2000</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stock Availability -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">Availability</h3>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filterInStockOnly">
+                            <span>In Stock Only</span>
+                        </label>
+                    </div>
+                </aside>
+
+                <!-- Products Grid (Right column) -->
+                <div class="products-grid" id="productsGrid" style="margin-top: 0;">
+                    <!-- Dynamically populated via app.js -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Order Inquiry Section -->
+    <section class="custom-order-section" id="custom-order" data-reveal>
+        <div class="section-container">
+            <div class="custom-grid">
+                <div class="custom-form-wrapper">
+                    <span class="section-tag">Bespoke Requests</span>
+                    <h2 class="section-title">Request a Custom Creation</h2>
+                    <p class="custom-description">Need a personalized woolen doll, a custom journal with specific pressed flowers, or monogrammed woolen handkerchiefs? Share your ideas and we will craft it for you.</p>
+                    
+                    <form class="inquiry-form" id="inquiryForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" required placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" required placeholder="john@example.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="craft-type">Craft Category</label>
+                                <select id="craft-type" required>
+                                    <option value="" disabled selected>Select a craft category</option>
+                                    <option value="paper">Custom Paper Craft / Journal</option>
+                                    <option value="kerchief">Monogrammed / Custom Woolen Handkerchief</option>
+                                    <option value="doll">Custom Woolen Doll / Character</option>
+                                    <option value="other">Other Unique Craft Idea</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="timeline">Desired Timeline</label>
+                                <select id="timeline" required>
+                                    <option value="flexible">Flexible (3-4 weeks)</option>
+                                    <option value="soon">Standard (2 weeks)</option>
+                                    <option value="rush">Rush (within 1 week)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Describe your dream design (colors, size, details)</label>
+                            <textarea id="message" rows="5" required placeholder="Please describe what you would like us to create..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <span>Send Custom Inquiry</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="custom-info-wrapper">
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fa-solid fa-compass"></i></div>
+                        <h3>The Process</h3>
+                        <p>Once you submit your inquiry, our lead artisan reviews your concept. We will email you sketch concepts, wool skein selections, or flower templates for your approval before we start crafting.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fa-solid fa-gift"></i></div>
+                        <h3>Artisanal Gifting</h3>
+                        <p>All custom orders come in premium eco-friendly gift boxes with a handwritten card detailing the materials used and the artisan who spent their time creating it.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Sai <span class="accent">Sankalp</span></h3>
+                    <p>A humble studio dedicated to crafting tactile, organic, and heartfelt handmade products that celebrate timeless heritage.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#about">Our Story</a></li>
+                        <li><a href="#shop">Shop Gallery</a></li>
+                        <li><a href="#custom-order">Bespoke Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Get in Touch</h4>
+                    <p><i class="fa-solid fa-location-dot"></i> Artisan Village, Studio 12, India</p>
+                    <p><i class="fa-solid fa-envelope"></i> saisameermarla@gmail.com</p>
+                    <p><i class="fa-solid fa-phone"></i> +91 9361483584</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to receive stories from our workshop and early access to new collections.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required aria-label="Email Address">
+                        <button type="submit" aria-label="Subscribe"><i class="fa-solid fa-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Sai Sankalp. Crafted with care and pride.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar Drawer -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Bag (<span id="cartCountTitle">0</span>)</h3>
+            <button class="cart-close-btn" id="cartCloseBtn" aria-label="Close shopping cart">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items (active) -->
+        <div class="cart-items-container" id="cartItemsContainer">
+            <div class="empty-cart-message">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <p>Your shopping bag is empty.</p>
+                <a href="#shop" class="btn btn-primary" id="cartExploreBtn">Browse Shop</a>
+            </div>
+        </div>
+
+        <!-- Save for Later Section -->
+        <div id="savedForLaterSection" style="display:none; border-top: 1px dashed var(--border-color); padding: 12px 16px 0;">
+            <h4 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary); margin-bottom:10px;">
+                <i class="fa-regular fa-bookmark" style="margin-right:6px;"></i>Saved for Later (<span id="savedForLaterCount">0</span>)
+            </h4>
+            <div id="savedForLaterList"></div>
+        </div>
+
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+
+            <!-- Coupon Code Input -->
+            <div id="couponSection" style="margin-bottom:14px;">
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input type="text" id="couponCodeInput" placeholder="Coupon / Gift Code" maxlength="30"
+                        style="flex:1; padding:8px 12px; border:1px solid var(--border-color); border-radius:6px; font-size:0.82rem; font-family:inherit; background:var(--bg-primary); color:var(--text-primary);">
+                    <button id="btnApplyCoupon" style="padding:8px 14px; background:var(--accent-color); color:#fff; border:none; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer; white-space:nowrap;">
+                        Apply
+                    </button>
+                </div>
+                <div id="couponMessage" style="font-size:0.78rem; margin-top:5px; min-height:16px;"></div>
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="cart-summary">
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span class="price-val" id="cartSubtotal">₹0.00</span>
+                </div>
+                <div class="summary-line" id="couponDiscountRow" style="display:none; color:#27ae60;">
+                    <span id="couponDiscountLabel">Discount</span>
+                    <span class="price-val" id="cartDiscount" style="color:#27ae60;">-₹0.00</span>
+                </div>
+                <div class="summary-line">
+                    <span>Shipping</span>
+                    <span id="cartShipping" style="font-weight:600;">FREE</span>
+                </div>
+                <div class="summary-line">
+                    <span>GST (18%)</span>
+                    <span class="price-val" id="cartGST">₹0.00</span>
+                </div>
+                <div class="summary-line" style="border-top:2px solid var(--border-color); padding-top:10px; margin-top:6px; font-weight:700; font-size:1rem;">
+                    <span>Total</span>
+                    <span class="price-val" id="cartTotal" style="color:var(--accent-color);">₹0.00</span>
+                </div>
+            </div>
+
+            <!-- Stock Validation Warning -->
+            <div id="cartValidationMsg" style="display:none; background:#fde8e8; color:#c0392b; font-size:0.8rem; padding:8px 12px; border-radius:6px; margin-bottom:10px; border-left:3px solid #e74c3c;">
+                <i class="fa-solid fa-circle-exclamation" style="margin-right:6px;"></i>
+                <span id="cartValidationText"></span>
+            </div>
+
+            <button class="checkout-btn" id="checkoutBtn">
+                <span>Proceed to Checkout</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Product Quick View Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close product details">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-grid" id="modalProductDetails">
+                <div class="modal-img-wrapper" style="position: relative; overflow: hidden; cursor: crosshair; border-radius: 12px; background: var(--bg-secondary); aspect-ratio: 1;">
+                    <img id="modalProductImg" src="" alt="Product creation" class="modal-img" style="transition: transform 0.1s ease; object-fit: cover; width: 100%; height: 100%;">
+                </div>
+                <div class="modal-info">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span class="modal-category" id="modalProductCategory">Handmade Craft</span>
+                        <span id="modalProductStock" class="badge badge-success">In Stock</span>
+                    </div>
+                    <h2 class="modal-title" id="modalProductTitle" style="font-family: var(--header-font); color: var(--text-primary); margin: 0 0 12px 0;">Creation Details</h2>
+                    <div class="modal-price-rating">
+                        <span class="modal-price" id="modalProductPrice">₹0.00</span>
+                        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary);">
+                            <i class="fa-solid fa-truck-fast" style="color: var(--accent-color);"></i>
+                            <span>Est. Delivery: <strong id="deliveryDateEstimation"></strong></span>
+                        </div>
+                    </div>
+                    <p class="modal-description" id="modalProductDesc" style="line-height: 1.6; margin-bottom: 20px;"></p>
+                    <div class="modal-actions" style="margin-bottom: 20px;">
+                        <button type="button" class="btn btn-primary" id="btnModalAddToCart" onclick="addToCart(activeDetailProductId); closeProductModal();" style="padding: 12px 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-cart-plus"></i> Add to Bag
+                        </button>
+                    </div>
+                    
+                    <!-- Customer Review Form -->
+                    <form id="productReviewForm" style="border-top: 1px solid var(--border-color); padding-top: 14px; margin-bottom: 16px;">
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px;">Leave a Verified Review</h4>
+                        <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                            <input type="text" id="reviewAuthor" placeholder="Your Name" style="flex: 1; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.82rem; background: var(--bg-primary); color: var(--text-primary);">
+                            <select id="reviewRating" style="padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.82rem; background: var(--bg-primary); color: var(--text-primary);">
+                                <option value="5">★★★★★ (5 Stars)</option>
+                                <option value="4">★★★★☆ (4 Stars)</option>
+                                <option value="3">★★★☆☆ (3 Stars)</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="reviewComment" placeholder="Write feedback about this creation..." style="flex: 1; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.82rem; background: var(--bg-primary); color: var(--text-primary);">
+                            <button type="submit" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.82rem; cursor: pointer;">Submit</button>
+                        </div>
+                    </form>
+
+                    <!-- Related Creations -->
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 14px;">
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 10px;">Related Creations</h4>
+                        <div class="carousel-container" id="carouselRelatedCreations" style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content" style="max-width: 900px; width: 100%;">
+            <button class="modal-close-btn" id="checkoutCloseBtn" aria-label="Close checkout details">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <!-- Step Indicators -->
+            <div class="step-indicators" style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 24px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                <span id="step1Indicator" class="step-ind active" style="color: var(--accent-color); padding-bottom: 4px; border-bottom: 2px solid var(--accent-color);">1. Shipping</span>
+                <span style="color: var(--border-color);">&rarr;</span>
+                <span id="step2Indicator" class="step-ind" style="color: var(--text-secondary);">2. Payment</span>
+            </div>
+
+            <div class="modal-grid checkout-grid">
+                
+                <!-- Left: Checkout Wizard Steps -->
+                <div class="checkout-steps-wrapper">
+                    
+                    <!-- STEP 1: Shipping Details -->
+                    <div id="checkoutStepShipping" class="checkout-step-panel">
+                        <h2 class="modal-title" style="font-size: 1.5rem; margin-bottom: 16px;">Shipping Details</h2>
+                        <form id="shippingForm" class="inquiry-form" style="gap: 16px;">
+                            <div class="form-group" id="checkoutSavedAddressGroup" style="display: none;">
+                                <label for="checkoutAddressSelect">Use Saved Address</label>
+                                <select id="checkoutAddressSelect" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary); font-size: 0.9rem;">
+                                    <option value="">-- Select a saved address --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutName">Full Name</label>
+                                <input type="text" id="checkoutName" required placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutEmail">Gmail / Email Address</label>
+                                <input type="email" id="checkoutEmail" required placeholder="john@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutMobile">Mobile Number</label>
+                                <input type="tel" id="checkoutMobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutAddress">Delivery Address</label>
+                                <textarea id="checkoutAddress" rows="3" required placeholder="House No, Street, City, State, PIN Code"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                                <span>Proceed to Payment</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- STEP 2: Payment Page -->
+                    <div id="checkoutStepPayment" class="checkout-step-panel" style="display: none;">
+                        <h2 class="modal-title" style="font-size: 1.4rem; margin-bottom: 14px;">Choose Payment Method</h2>
+
+                        <!-- Payment Method Tabs -->
+                        <div style="display:flex; gap:8px; margin-bottom:16px; border-bottom:2px solid var(--border-color); padding-bottom:0; flex-wrap: wrap;">
+                            <button type="button" class="pay-method-tab active" id="tabRazorpay" onclick="switchPaymentMethod('razorpay')"
+                                style="padding:8px 18px; font-size:0.85rem; font-weight:700; border:none; background:none; cursor:pointer; border-bottom:3px solid var(--accent-color); color:var(--accent-color);">
+                                <i class="fa-solid fa-bolt"></i> Razorpay (Fast Checkout)
+                            </button>
+                            <button type="button" class="pay-method-tab" id="tabUpi" onclick="switchPaymentMethod('upi')"
+                                style="padding:8px 18px; font-size:0.85rem; font-weight:700; border:none; background:none; cursor:pointer; border-bottom:3px solid transparent; color:var(--text-secondary);">
+                                <i class="fa-solid fa-qrcode"></i> UPI QR
+                            </button>
+                            <button type="button" class="pay-method-tab" id="tabCard" onclick="switchPaymentMethod('card')"
+                                style="padding:8px 18px; font-size:0.85rem; font-weight:700; border:none; background:none; cursor:pointer; border-bottom:3px solid transparent; color:var(--text-secondary);">
+                                <i class="fa-solid fa-credit-card"></i> Card
+                            </button>
+                            <button type="button" class="pay-method-tab" id="tabCod" onclick="switchPaymentMethod('cod')"
+                                style="padding:8px 18px; font-size:0.85rem; font-weight:700; border:none; background:none; cursor:pointer; border-bottom:3px solid transparent; color:var(--text-secondary);">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cash on Delivery
+                            </button>
+                        </div>
+
+                        <!-- Panel 0: Razorpay Fast Checkout -->
+                        <div id="panelRazorpay" class="payment-panel">
+                            <div style="background-color: var(--bg-secondary); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center; margin-bottom: 16px;">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+                                    <span style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); letter-spacing: 0.5px;">Razor<span style="color: #0d82ff;">pay</span></span>
+                                    <span style="background: #e8f4fd; color: #0d82ff; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">OFFICIAL GATEWAY</span>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">
+                                    Pay securely using Google Pay, PhonePe, Cards (Credit/Debit), NetBanking, or Wallets.
+                                </p>
+                                <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+                                    <span style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;"><i class="fa-brands fa-google-pay" style="color: #4285F4;"></i> GPay</span>
+                                    <span style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;"><i class="fa-solid fa-wallet" style="color: #5f259f;"></i> PhonePe</span>
+                                    <span style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;"><i class="fa-brands fa-cc-visa" style="color: #1a1f71;"></i> Visa</span>
+                                    <span style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;"><i class="fa-brands fa-cc-mastercard" style="color: #eb001b;"></i> Mastercard</span>
+                                    <span style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;"><i class="fa-solid fa-building-columns"></i> NetBanking</span>
+                                </div>
+                                <button type="button" id="btnPayRazorpay" onclick="initiateRazorpayPayment()" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem; font-weight: 700; background: linear-gradient(135deg, #0d82ff 0%, #0056b3 100%); border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(13, 130, 255, 0.35); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                    <i class="fa-solid fa-lock"></i> Pay via Razorpay Secure
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Panel A: UPI Payment -->
+                        <div id="panelUpi" class="payment-panel" style="display: none;">
+                            <div class="qr-wrapper" style="text-align: center; background-color: white; padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 16px; display: inline-block; width: 100%;">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo.png" alt="UPI" style="height: 18px;">
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #2C2A29;">Scan to Pay with Any App</span>
+                                </div>
+                                <img src="images/upi_qr.jpg" alt="UPI QR Code" style="width: 180px; max-width: 100%; height: auto; margin: 0 auto; display: block; border: 1px solid #eee; border-radius: 4px; box-shadow: var(--shadow-sm);">
+                                <div style="font-size: 0.85rem; margin-top: 12px; line-height: 1.4;">
+                                    <p style="font-weight: 700; color: var(--text-primary);">MARLA SAI SAMEER</p>
+                                    <p style="color: var(--text-secondary); display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                        <span id="upiIdText">9361483584-1@nyes</span>
+                                        <button type="button" id="btnCopyUpi" title="Copy UPI ID" style="background:none; border:none; color:var(--accent-color); cursor:pointer;"><i class="fa-solid fa-copy"></i></button>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="upi-mobile-links" style="text-align: center; margin-bottom: 16px;">
+                                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px;"><i class="fa-solid fa-mobile-screen"></i> Paying on mobile? Tap an app below:</p>
+                                <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                                    <a href="#" class="btn btn-secondary" id="linkGpay" style="padding: 6px 12px; font-size: 0.8rem; border-radius: 20px;"><i class="fa-brands fa-google-pay" style="color:#4285F4; font-size:1.2rem;"></i> GPay</a>
+                                    <a href="#" class="btn btn-secondary" id="linkPhonepe" style="padding: 6px 12px; font-size: 0.8rem; border-radius: 20px;"><i class="fa-solid fa-wallet" style="color:#5f259f;"></i> PhonePe</a>
+                                    <a href="#" class="btn btn-secondary" id="linkPaytm" style="padding: 6px 12px; font-size: 0.8rem; border-radius: 20px;"><i class="fa-solid fa-receipt" style="color:#00b9f5;"></i> Paytm</a>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Payment Status and simulator triggers -->
+                            <div id="paymentStatusBox" style="background-color: #f7f9fa; border-radius: 12px; padding: 16px; text-align: center; border: 1px dashed var(--border-color); margin-bottom: 16px; width: 100%;">
+                                <div id="paymentStatusSpinner" style="font-size: 1.8rem; color: var(--accent-color); margin-bottom: 8px;">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                                </div>
+                                <h4 id="paymentStatusTitle" style="font-weight: 700; margin-bottom: 4px; color: var(--text-primary);">Awaiting Payment...</h4>
+                                <p id="paymentStatusDesc" style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 8px;">Please scan the QR code to pay or use the simulator.</p>
+                                <p style="font-size: 0.75rem; color: var(--accent-color); font-weight: 700;">Transaction ID: <span id="paymentTxnIdText" style="font-family: monospace; background: #eaeded; padding: 2px 6px; border-radius: 4px;">TXN-XXXXXX</span></p>
+                            </div>
+
+                            <a href="#" target="_blank" id="btnOpenGateway" class="btn btn-primary" style="width: 100%; margin-bottom: 12px; text-decoration: none; justify-content: center; display: inline-flex; align-items: center; gap: 8px;">
+                                <i class="fa-solid fa-credit-card"></i>
+                                <span>Simulate Payment Gateway</span>
+                            </a>
+
+                            <div id="localOfflineSimBox" style="display: none; background-color: #fff9e6; border: 1px solid #ffeeba; border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 12px; font-size: 0.8rem; width: 100%;">
+                                <p style="color: #856404; margin-bottom: 8px; font-weight: 600;"><i class="fa-solid fa-wifi-slash"></i> Offline Sandbox Mode</p>
+                                <button type="button" class="btn" id="btnConfirmLocalPaid" style="width: 100%; font-size: 0.8rem; padding: 8px 12px; background-color: #ffc107; color: #212529; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
+                                    Simulate Local Payment (Success)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Panel B: Card Payment -->
+                        <div id="panelCard" class="payment-panel" style="display:none;">
+                            <div style="background-color:var(--bg-secondary); padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px;">
+                                <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px; text-align:center;">
+                                    <i class="fa-solid fa-lock" style="color:var(--accent-color);"></i> Secure card payment via payment gateway
+                                </p>
+                                <div style="display:flex; gap:8px; justify-content:center; margin-bottom:16px; flex-wrap:wrap;">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" style="height:22px; object-fit:contain;">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard" style="height:22px; object-fit:contain;">
+                                </div>
+                                <div style="background-color:#f7f9fa; border-radius:8px; padding:12px; text-align:center; border:1px dashed var(--border-color); margin-bottom:12px;">
+                                    <div id="cardPayStatusSpinner" style="font-size:1.4rem; color:var(--accent-color); margin-bottom:6px;"><i class="fa-solid fa-circle-notch fa-spin"></i></div>
+                                    <h4 id="cardPayStatusTitle" style="font-weight:700; font-size:0.9rem; color:var(--text-primary); margin-bottom:4px;">Awaiting Card Payment...</h4>
+                                    <p id="cardPayStatusDesc" style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:4px;">Use the gateway to complete card payment.</p>
+                                    <p style="font-size:0.75rem; color:var(--accent-color); font-weight:700;">Txn: <span id="cardTxnIdText" style="font-family:monospace; background:#eaeded; padding:2px 6px; border-radius:4px;">TXN-XXXXXX</span></p>
+                                </div>
+                                <a href="#" target="_blank" id="btnOpenCardGateway" class="btn btn-primary" style="width:100%; text-decoration:none; justify-content:center; display:inline-flex; align-items:center; gap:8px; margin-bottom:10px;">
+                                    <i class="fa-solid fa-credit-card"></i> Open Card Payment Gateway
+                                </a>
+                                <div id="cardOfflineSimBox" style="display:none; background-color:#fff9e6; border:1px solid #ffeeba; border-radius:8px; padding:10px; text-align:center; font-size:0.8rem;">
+                                    <p style="color:#856404; margin-bottom:6px; font-weight:600;"><i class="fa-solid fa-wifi-slash"></i> Offline Sandbox Mode</p>
+                                    <button type="button" id="btnCardLocalPaid" style="width:100%; font-size:0.8rem; padding:8px 12px; background-color:#ffc107; color:#212529; border:none; border-radius:6px; font-weight:700; cursor:pointer;">
+                                        Simulate Card Payment (Success)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel C: Cash on Delivery -->
+                        <div id="panelCod" class="payment-panel" style="display:none;">
+                            <div style="background-color:var(--bg-secondary); padding:24px; border-radius:12px; border:1px solid var(--border-color); text-align:center; margin-bottom:16px;">
+                                <i class="fa-solid fa-truck-fast" style="font-size:2.5rem; color:var(--accent-color); margin-bottom:12px; display:block;"></i>
+                                <h4 style="font-weight:700; color:var(--text-primary); margin-bottom:8px;">Cash on Delivery</h4>
+                                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5; max-width:340px; margin:0 auto 16px;">
+                                    Pay in cash when your order arrives at your doorstep. No advance payment required.
+                                    <br><strong style="color:var(--text-primary);">COD handling fee: ₹25</strong>
+                                </p>
+                                <div style="background:#eafaf1; border:1px solid #a9dfbf; border-radius:8px; padding:12px; margin-bottom:16px; font-size:0.82rem; color:#1e8449;">
+                                    <i class="fa-solid fa-circle-check"></i> &nbsp;Your order will be confirmed immediately. Pay when delivered.
+                                </div>
+                                <button type="button" id="btnConfirmCod" onclick="handleCODOrder()" class="btn btn-primary" style="width:100%; padding:12px; font-size:0.95rem; font-weight:700;">
+                                    <i class="fa-solid fa-handshake"></i> Confirm COD Order
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Invoice Order Summary -->
+                <div class="checkout-summary-wrapper" style="background-color: var(--bg-secondary); padding: 24px; border-radius: 12px; display: flex; flex-direction: column; height: fit-content; border: 1px solid var(--border-color);">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Order Summary</h3>
+                    
+                    <div id="checkoutSummaryItems" style="flex-grow: 1; overflow-y: auto; max-height: 150px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+                        <!-- Items rendered dynamically -->
+                    </div>
+                    
+                    <!-- Invoice Tax Breakdown (Indian GST Guidelines) -->
+                    <div class="invoice-breakdown" style="border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Subtotal:</span>
+                            <span id="invoiceSubtotal">₹0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>CGST (2.5%):</span>
+                            <span id="invoiceCgst">₹0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>SGST (2.5%):</span>
+                            <span id="invoiceSgst">₹0.00</span>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between; font-weight: 700; font-size: 1.15rem;">
+                        <span>Total Payable:</span>
+                        <span class="accent" id="checkoutSummaryTotal">₹0.00</span>
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 16px; text-align: center; line-height: 1.4;">
+                        <i class="fa-solid fa-shield-halved" style="color: var(--secondary-color);"></i> Prices include 5% Indian Handloom/Crafts GST (CGST 2.5% + SGST 2.5%) as per Gov. guidelines.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Checkout Modal Overlay -->
+    <div class="modal-overlay" id="checkoutOverlay"></div>
+
+    <!-- Login Modal -->
+    <!-- Hardened Authentication Modal -->
+    <div class="login-modal-overlay" id="loginModal">
+        <div class="login-modal-content" style="position: relative;">
+            <button type="button" id="btnAuthClose" aria-label="Close Authentication Dialog" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.25rem; color: var(--text-secondary); cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            
+            <h2 style="font-family: var(--header-font); color: var(--accent-color); margin-bottom: 8px; font-size: 1.5rem;">Welcome to Sai Sankalp</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;">Sign in or create a secure account to continue.</p>
+            
+            <!-- Tabs -->
+            <div class="auth-tabs" id="authTabs">
+                <button type="button" class="auth-tab-btn active" id="btnAuthTabSignin" onclick="switchAuthTab('signin')">Sign In</button>
+                <button type="button" class="auth-tab-btn" id="btnAuthTabRegister" onclick="switchAuthTab('register')">Register</button>
+            </div>
+            
+            <!-- PANEL 1: Sign In -->
+            <div class="auth-view active" id="viewSignIn">
+                <form id="signInForm">
+                    <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                        <label for="signInEmail" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">Email Address</label>
+                        <input type="email" id="signInEmail" placeholder="name@gmail.com" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; font-size: 0.9rem; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                        <label for="signInPassword" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">Password</label>
+                        <input type="password" id="signInPassword" placeholder="••••••••" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; font-size: 0.9rem; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer; padding: 12px;">Sign In</button>
+                        <button type="button" onclick="showAuthView('forgot')" class="auth-forgot-link" style="border: none; background: none;">Forgot Password?</button>
+                        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 12px 0;">
+                        <button type="button" id="btnContinueGuest" class="btn btn-secondary" style="width: 100%; cursor: pointer; padding: 10px;">Continue as Guest</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- PANEL 2: Register -->
+            <div class="auth-view" id="viewRegister">
+                <form id="registerForm">
+                    <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                        <label for="registerEmail" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">Email Address</label>
+                        <input type="email" id="registerEmail" placeholder="name@gmail.com" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; font-size: 0.9rem; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                        <label for="registerPassword" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">Password (min. 6 chars)</label>
+                        <input type="password" id="registerPassword" placeholder="••••••••" required minlength="6" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; font-size: 0.9rem; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer; padding: 12px;">Send Verification OTP</button>
+                </form>
+            </div>
+
+            <!-- PANEL 3: OTP Verification -->
+            <div class="auth-view" id="viewOtp">
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px;">We have sent a verification code to <strong id="otpEmailTarget">user@email.com</strong>. Please check your console/logs and enter it below.</p>
+                <form id="otpForm">
+                    <div class="form-group" style="margin-bottom: 20px; text-align: left;">
+                        <label for="otpCode" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">6-Digit OTP Code</label>
+                        <input type="text" id="otpCode" placeholder="123456" required maxlength="6" pattern="\d{6}" style="width: 100%; padding: 12px; text-align: center; font-size: 1.3rem; letter-spacing: 6px; border: 1px solid var(--border-color); border-radius: 8px; font-family: monospace; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1; cursor: pointer;">Verify Code</button>
+                        <button type="button" onclick="cancelOtpFlow()" class="btn btn-secondary" style="flex: 1; cursor: pointer;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- PANEL 4: Forgot Password Request -->
+            <div class="auth-view" id="viewForgot">
+                <h3 style="font-family: var(--header-font); color: var(--accent-color); margin-bottom: 8px; font-size: 1.1rem;">Forgot Password</h3>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px;">Enter your email to receive a password reset OTP.</p>
+                <form id="forgotForm">
+                    <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                        <label for="forgotEmail" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">Email Address</label>
+                        <input type="email" id="forgotEmail" placeholder="name@gmail.com" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; font-size: 0.9rem; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1; cursor: pointer;">Send OTP</button>
+                        <button type="button" onclick="showAuthView('signin')" class="btn btn-secondary" style="flex: 1; cursor: pointer;">Back</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- PANEL 5: Reset Password (OTP + New Password) -->
+            <div class="auth-view" id="viewResetPassword">
+                <h3 style="font-family: var(--header-font); color: var(--accent-color); margin-bottom: 8px; font-size: 1.1rem;">Reset Password</h3>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px;">Enter the OTP code sent to your email and your new password.</p>
+                <form id="resetForm">
+                    <div class="form-group" style="margin-bottom: 12px; text-align: left;">
+                        <label for="resetOtp" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">6-Digit OTP</label>
+                        <input type="text" id="resetOtp" placeholder="123456" required maxlength="6" pattern="\d{6}" style="width: 100%; padding: 10px; text-align: center; font-size: 1.1rem; letter-spacing: 4px; border: 1px solid var(--border-color); border-radius: 8px; font-family: monospace; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px; text-align: left;">
+                        <label for="resetNewPassword" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem;">New Password (min. 6 chars)</label>
+                        <input type="password" id="resetNewPassword" placeholder="••••••••" required minlength="6" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; font-size: 0.9rem; background-color: var(--bg-primary); color: var(--text-primary); box-sizing: border-box;">
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1; cursor: pointer;">Reset Password</button>
+                        <button type="button" onclick="showAuthView('signin')" class="btn btn-secondary" style="flex: 1; cursor: pointer;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div class="admin-dashboard-overlay" id="adminDashboard">
+        <div class="admin-dashboard-container">
+            <div class="admin-dashboard-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <h2 style="font-family: var(--header-font); color: var(--accent-color); margin: 0;"><i class="fa-solid fa-user-shield"></i> Sai Sankalp Admin Panel</h2>
+                    <!-- Admin Notification Bell Icon -->
+                    <div style="position: relative;">
+                        <button type="button" id="btnAdminNotificationToggle" style="background: none; border: none; font-size: 1.15rem; color: var(--text-secondary); cursor: pointer; position: relative;">
+                            <i class="fa-solid fa-bell"></i>
+                            <span id="adminNotificationBadge" style="position: absolute; top: -6px; right: -6px; background: #e74c3c; color: white; border-radius: 50%; width: 15px; height: 15px; font-size: 0.6rem; font-weight: 700; display: none; align-items: center; justify-content: center;">0</span>
+                        </button>
+                        <!-- Floating Admin Notifications Drawer -->
+                        <div id="adminNotificationsDrawer" class="search-suggestions-panel" style="width: 280px; top: 120%; left: 0; right: auto; padding: 12px; box-sizing: border-box; text-align: left; display: none;">
+                            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; margin-bottom: 10px;">
+                                <h4 style="margin: 0; font-size: 0.85rem; color: var(--text-primary);">Admin Alerts</h4>
+                                <button type="button" onclick="clearAdminNotifications()" style="background:none; border:none; color:var(--accent-color); font-size:0.75rem; font-weight:600; cursor:pointer; padding:0;">Clear All</button>
+                            </div>
+                            <div id="adminNotificationsList" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                                <p style="margin: 0; padding: 10px; font-size: 0.78rem; color: var(--text-secondary); text-align: center;">No new alerts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="admin-close-btn" id="btnAdminClose" aria-label="Close Admin Panel" style="background:none; border:none; font-size:1.5rem; color:var(--text-secondary); cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="admin-tabs" style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 20px; flex-wrap: wrap;">
+                <button type="button" class="admin-tab-btn active" id="tabAdminOrders" onclick="switchAdminTab('orders')" style="padding: 12px 20px; border: none; background: none; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: var(--accent-color); border-bottom: 2px solid var(--accent-color); cursor: pointer;"><i class="fa-solid fa-cart-shopping"></i> Purchases</button>
+                <button type="button" class="admin-tab-btn" id="tabAdminProducts" onclick="switchAdminTab('products')" style="padding: 12px 20px; border: none; background: none; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); cursor: pointer;"><i class="fa-solid fa-boxes-stacked"></i> Products &amp; Categories</button>
+                <button type="button" class="admin-tab-btn" id="tabAdminAnalytics" onclick="switchAdminTab('analytics')" style="padding: 12px 20px; border: none; background: none; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); cursor: pointer;"><i class="fa-solid fa-chart-line"></i> Business Analytics</button>
+                <button type="button" class="admin-tab-btn" id="tabAdminPromo" onclick="switchAdminTab('promo')" style="padding: 12px 20px; border: none; background: none; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); cursor: pointer;"><i class="fa-solid fa-tags"></i> Coupons &amp; Banners</button>
+                <button type="button" class="admin-tab-btn" id="tabAdminGateway" onclick="switchAdminTab('gateway')" style="padding: 12px 20px; border: none; background: none; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); cursor: pointer;"><i class="fa-solid fa-credit-card"></i> Payment Gateway (Razorpay)</button>
+            </div>
+
+            <!-- TAB 1: View Purchases -->
+            <div class="admin-tab-panel" id="panelAdminOrders">
+                <div class="admin-orders-controls" style="margin-bottom: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <div class="search-box" style="position: relative; display: flex; align-items: center; max-width: 320px; flex: 1;">
+                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; color: var(--text-secondary);"></i>
+                        <input type="text" id="adminOrderSearch" placeholder="Search orders by ID, customer, address..." style="width: 100%; padding: 10px 12px 10px 36px; border: 1px solid var(--border-color); border-radius: 6px; font-family: inherit; font-size: 0.9rem; background: var(--bg-primary); color: var(--text-primary);">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <label for="adminOrderStatusFilter" style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);">Filter:</label>
+                        <select id="adminOrderStatusFilter" style="padding: 9px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-family: inherit; font-size: 0.85rem; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;">
+                            <option value="ALL">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Confirmed">Confirmed (Accepted)</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Out for Delivery">Out for Delivery</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled (Declined)</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="fetchOrders()" class="btn btn-secondary" style="padding: 9px 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                </div>
+                <div class="admin-table-wrapper" style="overflow-x: auto; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px;">
+                    <table class="admin-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="background-color: var(--bg-secondary); border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-primary);">
+                                <th style="padding: 12px 16px;">Order ID</th>
+                                <th style="padding: 12px 16px;">Date & Time</th>
+                                <th style="padding: 12px 16px;">Customer Name</th>
+                                <th style="padding: 12px 16px;">Gmail / Email</th>
+                                <th style="padding: 12px 16px;">Mobile</th>
+                                <th style="padding: 12px 16px;">Items</th>
+                                <th style="padding: 12px 16px;">Total</th>
+                                <th style="padding: 12px 16px;">Delivery Date</th>
+                                <th style="padding: 12px 16px;">Shipping Address</th>
+                                <th style="padding: 12px 16px; text-align: center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminOrdersTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: Manage Products & Categories -->
+            <div class="admin-tab-panel" id="panelAdminProducts" style="display: none;">
+                <div class="admin-products-grid">
+                    <!-- Column Left: Products Catalog List -->
+                    <div class="admin-products-list-col">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; flex-wrap: wrap;">
+                            <h3 style="margin: 0; font-family: var(--header-font); color: var(--text-primary);">Current Catalog</h3>
+                            <input type="text" id="adminProductSearch" placeholder="Search catalog..." style="padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.8rem; background: var(--bg-primary); color: var(--text-primary); max-width: 170px;">
+                        </div>
+                        <div id="adminProductsList" class="admin-products-list-container" style="display: flex; flex-direction: column; gap: 12px; max-height: 550px; overflow-y: auto; padding-right: 8px;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                    
+                    <!-- Column Right: Add Product & Category Management -->
+                    <div class="admin-products-form-col" style="display: flex; flex-direction: column; gap: 24px;">
+                        <!-- Add Product Form -->
+                        <div style="background-color: var(--bg-secondary); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+                            <h3 style="margin-top: 0; margin-bottom: 20px; font-family: var(--header-font); color: var(--text-primary);">Add New Product</h3>
+                            <form id="adminAddProductForm" novalidate>
+                                <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                                    <label for="prodTitle" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Product Title <span style="color:var(--accent-color);">*</span></label>
+                                    <input type="text" id="prodTitle" placeholder="e.g. Quilled shadowbox art" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; box-sizing: border-box;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                                    <label for="prodCategory" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Category <span style="color:var(--accent-color);">*</span></label>
+                                    <select id="prodCategory" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; background-color: var(--bg-primary); box-sizing: border-box;">
+                                        <option value="" disabled selected>Select category</option>
+                                        <option value="paper">Paper Craft</option>
+                                        <option value="kerchief">Woolen Handkerchief</option>
+                                        <option value="doll">Woolen Doll</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                                    <label for="prodPrice" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Price (₹) <span style="color:var(--accent-color);">*</span></label>
+                                    <input type="number" id="prodPrice" min="0" step="0.01" placeholder="650.00" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; box-sizing: border-box;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                                    <label for="prodStock" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Stock Quantity <span style="color:var(--accent-color);">*</span></label>
+                                    <input type="number" id="prodStock" min="0" value="10" placeholder="10" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; box-sizing: border-box;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                                    <label for="prodImageFile" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Product Image <span style="color:var(--accent-color);">*</span></label>
+                                    <label for="prodImageFile" id="prodImageDropLabel" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; width:100%; padding:18px 10px; border:2px dashed var(--border-color); border-radius:8px; background:var(--bg-primary); cursor:pointer; box-sizing:border-box; transition:border-color 0.2s; text-align:center;">
+                                        <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.8rem; color:var(--text-secondary);"></i>
+                                        <span style="font-size:0.85rem; color:var(--text-secondary);">Click to upload or drag & drop<br><strong>JPG, PNG, WEBP</strong> supported</span>
+                                    </label>
+                                    <input type="file" id="prodImageFile" accept="image/*" style="display:none;">
+                                    <div id="prodImagePreviewWrapper" style="display:none; margin-top:10px; position:relative; text-align:center;">
+                                        <img id="prodImagePreview" src="" alt="Preview" style="max-width:100%; max-height:130px; border-radius:8px; border:1px solid var(--border-color); object-fit:cover; box-shadow:var(--shadow-sm);">
+                                        <button type="button" id="prodImageClearBtn" title="Remove image" style="position:absolute; top:4px; right:4px; background:rgba(0,0,0,0.55); color:white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; font-size:0.7rem;">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                        <p id="prodImageFileName" style="margin-top:5px; font-size:0.78rem; color:var(--text-secondary); word-break:break-all;"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 20px; text-align: left;">
+                                    <label for="prodDescription" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Product Description <span style="color:var(--accent-color);">*</span></label>
+                                    <textarea id="prodDescription" rows="4" placeholder="Enter description details here..." style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; resize:vertical; box-sizing: border-box;"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;">
+                                    <i class="fa-solid fa-plus"></i> Add Product to Store
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Category Manager -->
+                        <div style="background-color: var(--bg-secondary); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); text-align: left;">
+                            <h3 style="margin-top: 0; margin-bottom: 16px; font-family: var(--header-font); color: var(--text-primary);"><i class="fa-solid fa-tags"></i> Category Management</h3>
+                            <form id="adminAddCategoryForm" onsubmit="addAdminCategory(event)" style="display: flex; gap: 8px; margin-bottom: 16px;">
+                                <input type="text" id="newCatId" placeholder="id (e.g. wood)" required style="flex:1; padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.85rem;">
+                                <input type="text" id="newCatName" placeholder="Name (e.g. Wood Craft)" required style="flex:1.5; padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.85rem;">
+                                <button type="submit" class="btn btn-primary" style="padding: 8px 12px; font-size:0.85rem;"><i class="fa-solid fa-plus"></i></button>
+                            </form>
+                            <div id="adminCategoryList" style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                                <!-- populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: Business Analytics -->
+            <div class="admin-tab-panel" id="panelAdminAnalytics" style="display: none; padding: 10px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                    <h3 style="margin: 0; font-family: var(--header-font); color: var(--text-primary);">Sales &amp; Store Performance</h3>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary analytics-range-btn active" onclick="setAnalyticsRange('all', this)" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">All Time</button>
+                        <button type="button" class="btn btn-secondary analytics-range-btn" onclick="setAnalyticsRange('30d', this)" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Last 30 Days</button>
+                        <button type="button" class="btn btn-secondary analytics-range-btn" onclick="setAnalyticsRange('7d', this)" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Last 7 Days</button>
+                        <button type="button" class="btn btn-secondary analytics-range-btn" onclick="setAnalyticsRange('today', this)" style="padding: 6px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Today</button>
+                    </div>
+                </div>
+
+                <div class="analytics-metrics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <h4 style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Total Orders</h4>
+                        <div id="statTotalOrders" style="font-size: 1.8rem; font-weight: 700; color: var(--accent-color); margin-top: 6px;">0</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <h4 style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Total Revenue</h4>
+                        <div id="statTotalRevenue" style="font-size: 1.8rem; font-weight: 700; color: #2ecc71; margin-top: 6px;">₹0.00</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <h4 style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Today's Sales</h4>
+                        <div id="statTodaySales" style="font-size: 1.8rem; font-weight: 700; color: #3498db; margin-top: 6px;">₹0.00</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <h4 style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Monthly Sales</h4>
+                        <div id="statMonthlySales" style="font-size: 1.8rem; font-weight: 700; color: #9b59b6; margin-top: 6px;">₹0.00</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <h4 style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Avg Order Value (AOV)</h4>
+                        <div id="statConversionRate" style="font-size: 1.8rem; font-weight: 700; color: #e67e22; margin-top: 6px;">₹0.00</div>
+                    </div>
+                </div>
+
+                <div class="analytics-metrics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <h4 style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Returning Customer Rate</h4>
+                        <div id="statReturningRate" style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary); margin-top: 6px;">0%</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <h4 style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Low Stock Alerts (< 5)</h4>
+                        <div id="statLowStockAlerts" style="font-size: 1.4rem; font-weight: 700; color: #e67e22; margin-top: 6px;">0</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <h4 style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Out of Stock Alerts (= 0)</h4>
+                        <div id="statOutOfStockAlerts" style="font-size: 1.4rem; font-weight: 700; color: #e74c3c; margin-top: 6px;">0</div>
+                    </div>
+                </div>
+
+                <!-- Export & Controls -->
+                <div style="display: flex; gap: 12px; margin-bottom: 20px; justify-content: flex-end; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary" onclick="exportOrdersCSV()" style="padding: 8px 16px; font-size: 0.85rem; font-weight: 600;"><i class="fa-solid fa-file-excel"></i> Export Orders (CSV)</button>
+                    <button type="button" class="btn btn-secondary" onclick="exportCustomersCSV()" style="padding: 8px 16px; font-size: 0.85rem; font-weight: 600;"><i class="fa-solid fa-file-csv"></i> Export Customers (CSV)</button>
+                </div>
+
+                <!-- Charts layout -->
+                <div class="admin-charts-grid">
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 0.95rem; font-family: var(--header-font); text-transform: uppercase; color: var(--text-primary);">Sales &amp; Revenue Trends</h3>
+                        <div id="analyticsChartWrapper" style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <!-- SVG Chart drawn dynamically -->
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 0.95rem; font-family: var(--header-font); text-transform: uppercase; color: var(--text-primary); text-align: center;">Best Sellers</h3>
+                        <div id="analyticsBestSellersList" style="display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow-y: auto;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: Coupons & Banners -->
+            <div class="admin-tab-panel" id="panelAdminPromo" style="display: none; padding: 10px 0;">
+                <div class="admin-promo-grid">
+                    <!-- Coupon Management -->
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top:0; margin-bottom: 16px; color: var(--text-primary);"><i class="fa-solid fa-gift"></i> Coupon Code Registry</h3>
+                        <form id="adminAddCouponForm" onsubmit="addAdminCoupon(event)" style="margin-bottom: 20px; display: grid; gap: 10px;">
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="couponCode" placeholder="CODE (e.g. SAVE30)" required style="flex:1; padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; text-transform:uppercase;">
+                                <select id="couponType" required style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; background:var(--bg-primary); color:var(--text-primary); font-family:inherit;">
+                                    <option value="percent">Percentage Off (%)</option>
+                                    <option value="flat">Flat Amount Off (₹)</option>
+                                </select>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="number" id="couponValue" placeholder="Value (e.g. 30)" required min="1" step="0.01" style="flex:1; padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit;">
+                                <input type="text" id="couponLabel" placeholder="Label description" style="flex:1.2; padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit;">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="padding:8px; font-size:0.85rem;"><i class="fa-solid fa-plus"></i> Add Coupon</button>
+                        </form>
+                        <h4 style="margin: 15px 0 8px 0; font-size: 0.9rem; color:var(--text-primary);">Active Coupons</h4>
+                        <div id="adminCouponsList" style="max-height: 200px; overflow-y: auto;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Banner Management -->
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top:0; margin-bottom: 16px; color: var(--text-primary);"><i class="fa-solid fa-image"></i> Promotional Banners</h3>
+                        <form id="adminAddBannerForm" onsubmit="addAdminBanner(event)" style="margin-bottom: 20px; display: grid; gap: 10px;">
+                            <select id="bannerImageSelect" required style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; background:var(--bg-primary); color:var(--text-primary); font-family:inherit;">
+                                <option value="" disabled selected>Select banner image</option>
+                                <option value="images/hero_weaving.png">Artisanal Weavings (hero_weaving.png)</option>
+                                <option value="images/hero_crafts.png">Quilled Floral Frame Art (hero_crafts.png)</option>
+                                <option value="images/paper_journal.png">Pressed Flower Journal (paper_journal.png)</option>
+                                <option value="images/wool_doll.png">Woolen Dolls (wool_doll.png)</option>
+                                <option value="images/wool_kerchief.png">Merino Wool Handkerchiefs (wool_kerchief.png)</option>
+                            </select>
+                            <input type="text" id="bannerTitle" placeholder="Banner Title text" required style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit;">
+                            <input type="text" id="bannerSubtitle" placeholder="Banner Subtitle description" required style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit;">
+                            <button type="submit" class="btn btn-primary" style="padding:8px; font-size:0.85rem;"><i class="fa-solid fa-plus"></i> Add Banner</button>
+                        </form>
+                        <h4 style="margin: 15px 0 8px 0; font-size: 0.9rem; color:var(--text-primary);">Current Banners</h4>
+                        <div id="adminBannersList" style="max-height: 200px; overflow-y: auto;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Gateway Settings Tab Panel -->
+            <div id="panelAdminGateway" style="display: none; animation: fadeIn 0.3s ease;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+                    <div style="background: var(--bg-secondary); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h3 style="margin: 0; color: var(--text-primary);"><i class="fa-solid fa-credit-card" style="color: #3399cc;"></i> Razorpay Gateway Settings</h3>
+                            <span class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                <i class="fa-solid fa-circle-check"></i> Live & Connected
+                            </span>
+                        </div>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+                            Configured for real-time UPI (GPay, PhonePe, Paytm), Debit/Credit Cards, Net Banking, and Wallets using Razorpay Test environment.
+                        </p>
+
+                        <div style="display: grid; gap: 14px;">
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary);">RAZORPAY KEY ID</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="text" id="adminRzpKeyId" value="rzp_test_T8XwugnuJ4Wtkm" readonly style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-family: monospace; font-size: 0.9rem;">
+                                    <button type="button" class="btn" onclick="navigator.clipboard.writeText('rzp_test_T8XwugnuJ4Wtkm'); showToast('Key ID copied!')" style="padding: 0 12px; font-size: 0.85rem;"><i class="fa-regular fa-copy"></i></button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary);">WEBHOOK & VERIFICATION ENDPOINT</label>
+                                <input type="text" value="/api/razorpay/verify-payment" readonly style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-family: monospace; font-size: 0.9rem;">
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary);">GATEWAY ENVIRONMENT</label>
+                                <span style="display: inline-block; padding: 6px 12px; background: rgba(59,130,246,0.1); color: #3b82f6; border-radius: 6px; font-weight: 600; font-size: 0.85rem;">
+                                    <i class="fa-solid fa-flask"></i> Sandbox / Test Mode
+                                </span>
+                            </div>
+
+                            <div style="margin-top: 10px; padding: 14px; background: rgba(0,0,0,0.03); border-radius: 8px; border: 1px dashed var(--border-color);">
+                                <h4 style="margin: 0 0 8px 0; font-size: 0.85rem; color: var(--text-primary);"><i class="fa-solid fa-shield-halved"></i> Signature Security</h4>
+                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">
+                                    Cryptographic HMAC SHA-256 signature verification is strictly enforced on the server for all payment callbacks before orders are marked Paid.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--bg-secondary); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top: 0; margin-bottom: 16px; color: var(--text-primary);"><i class="fa-solid fa-sliders"></i> Payment Methods Available</h3>
+                        <div style="display: grid; gap: 12px;">
+                            <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border-color); cursor: pointer;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-solid fa-qrcode" style="font-size: 1.2rem; color: #10b981;"></i>
+                                    <div>
+                                        <div style="font-weight: 600; font-size: 0.9rem;">Razorpay UPI & QR</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Google Pay, PhonePe, Paytm, BHIM</div>
+                                    </div>
+                                </div>
+                                <input type="checkbox" checked disabled style="transform: scale(1.2);">
+                            </label>
+
+                            <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border-color); cursor: pointer;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-regular fa-credit-card" style="font-size: 1.2rem; color: #3b82f6;"></i>
+                                    <div>
+                                        <div style="font-weight: 600; font-size: 0.9rem;">Credit & Debit Cards</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Visa, Mastercard, RuPay, Amex</div>
+                                    </div>
+                                </div>
+                                <input type="checkbox" checked disabled style="transform: scale(1.2);">
+                            </label>
+
+                            <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border-color); cursor: pointer;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; color: #f59e0b;"></i>
+                                    <div>
+                                        <div style="font-weight: 600; font-size: 0.9rem;">Net Banking</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-secondary);">SBI, HDFC, ICICI, Axis & 50+ Banks</div>
+                                    </div>
+                                </div>
+                                <input type="checkbox" checked disabled style="transform: scale(1.2);">
+                            </label>
+
+                            <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border-color); cursor: pointer;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-solid fa-truck-ramp-box" style="font-size: 1.2rem; color: #8b5cf6;"></i>
+                                    <div>
+                                        <div style="font-weight: 600; font-size: 0.9rem;">Cash on Delivery (COD)</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Pay upon home package arrival</div>
+                                    </div>
+                                </div>
+                                <input type="checkbox" checked disabled style="transform: scale(1.2);">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Dashboard Modal -->
+    <div class="admin-dashboard-overlay" id="customerDashboard" style="z-index: 1000;">
+        <div class="admin-dashboard-container" style="max-width: 1000px; width: 100%;">
+            <div class="admin-dashboard-header">
+                <h2 style="font-family: var(--header-font); color: var(--accent-color); margin: 0;"><i class="fa-solid fa-clock-rotate-left"></i> My Orders & Tracking</h2>
+                <button type="button" class="admin-close-btn" id="btnCustomerClose" aria-label="Close Dashboard" style="background:none; border:none; font-size:1.5rem; color:var(--text-secondary); cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div style="margin-bottom: 20px; font-size: 0.95rem; color: var(--text-secondary);">
+                <span>Logged in as: </span><strong id="customerDashboardEmail" style="color: var(--text-primary);">user@gmail.com</strong>
+            </div>
+
+            <div class="admin-table-wrapper" style="overflow-x: auto; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px;">
+                <table class="admin-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                    <thead>
+                        <tr style="background-color: var(--bg-secondary); border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-primary);">
+                            <th style="padding: 12px 16px;">Order ID</th>
+                            <th style="padding: 12px 16px;">Date & Time</th>
+                            <th style="padding: 12px 16px;">Items</th>
+                            <th style="padding: 12px 16px;">Total</th>
+                            <th style="padding: 12px 16px;">Status</th>
+                            <th style="padding: 12px 16px;">Delivery Est.</th>
+                            <th style="padding: 12px 16px; text-align: center; min-width: 200px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerOrdersTableBody">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Saved Addresses Section -->
+            <div style="margin-top: 30px; border-top: 2px solid var(--border-color); padding-top: 20px;">
+                <h3 style="font-family: var(--header-font); color: var(--accent-color); margin-bottom: 15px;"><i class="fa-solid fa-location-dot"></i> Saved Addresses</h3>
+                <div id="savedAddressesList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                    <!-- Saved Address cards populated dynamically -->
+                </div>
+                
+                <!-- Add New Address Form inline -->
+                <form id="addAddressForm" style="display: flex; flex-direction: column; gap: 10px; max-width: 500px; padding: 15px; border: 1px dashed var(--border-color); border-radius: 8px; background: var(--bg-secondary);">
+                    <h4 style="margin: 0; color: var(--text-primary); font-size: 0.95rem;">Add Shipping Address</h4>
+                    <div class="form-row-half">
+                        <input type="text" id="addrName" placeholder="Full Name" required style="padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary); font-size: 0.85rem;">
+                        <input type="text" id="addrMobile" placeholder="Mobile Number" required style="padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary); font-size: 0.85rem;">
+                    </div>
+                    <textarea id="addrText" rows="2" placeholder="Address (House No, Street, City, State, PIN Code)" required style="padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary); font-size: 0.85rem;"></textarea>
+                    <button type="submit" class="btn btn-primary" style="padding: 8px; font-size: 0.85rem; border-radius: 4px;">Save Address</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details & Invoice Modal -->
+    <div class="modal" id="orderDetailsModal" style="display: none; z-index: 1100;">
+        <div class="modal-content" style="max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto;">
+            <button class="modal-close-btn" id="orderDetailsCloseBtn" aria-label="Close Details">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div id="invoicePrintArea">
+                <!-- Header with brand details -->
+                <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--accent-color); padding-bottom: 16px; margin-bottom: 20px;">
+                    <div>
+                        <h2 style="font-family: var(--header-font); color: var(--accent-color); margin: 0; font-size: 1.8rem;">Sai <span style="color: var(--primary-color);">Sankalp</span></h2>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Premium Handmade Crafts & Decor</p>
+                    </div>
+                    <div style="text-align: right; font-size: 0.85rem; color: var(--text-secondary);">
+                        <p><strong>Sai Sankalp Crafts</strong></p>
+                        <p>saisameermarla@gmail.com</p>
+                        <p>+91 9361483584</p>
+                    </div>
+                </div>
+
+                <!-- Title & Basic Info -->
+                <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
+                    <div>
+                        <h3 style="margin-bottom: 6px; font-size: 1.1rem; color: var(--text-primary);">INVOICE</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Order ID: <strong id="invOrderId" style="color: var(--accent-color);">SS-XXXXXX</strong></p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Date: <span id="invOrderDate">2026-06-28</span></p>
+                    </div>
+                    <div style="text-align: right;">
+                        <h4 style="margin-bottom: 4px; font-size: 0.9rem; color: var(--text-primary);">Billed To:</h4>
+                        <p style="font-size: 0.85rem; font-weight: 600;" id="invCustName">John Doe</p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);" id="invCustEmail">john@gmail.com</p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);" id="invCustMobile">9876543210</p>
+                    </div>
+                </div>
+
+                <!-- Visual Order Tracking Progress Bar -->
+                <div id="visualOrderTrackingBar" style="margin-bottom: 30px; background-color: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                    <h4 style="margin-bottom: 16px; font-size: 0.9rem; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-truck-ramp-box" style="color: var(--accent-color);"></i>
+                        <span>Order Status Tracking</span>
+                    </h4>
+                    <!-- Tracking Steps -->
+                    <div style="display: flex; justify-content: space-between; position: relative; margin-top: 10px;">
+                        <!-- Track Line -->
+                        <div style="position: absolute; top: 14px; left: 4%; right: 4%; height: 4px; background-color: var(--border-color); z-index: 1;">
+                            <div id="trackingLineProgress" style="height: 100%; width: 0%; background-color: var(--success-color); transition: width 0.5s ease;"></div>
+                        </div>
+                        
+                        <!-- Step Nodes -->
+                        <div class="track-node" id="nodePending" style="position: relative; z-index: 2; text-align: center; width: 60px;">
+                            <div class="node-circle" style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--border-color); border: 2px solid white; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.75rem; color: white; font-weight: bold;"><i class="fa-solid fa-clock"></i></div>
+                            <span style="font-size: 0.7rem; font-weight: 600; display: block; line-height: 1.2;">Placed</span>
+                        </div>
+                        <div class="track-node" id="nodeConfirmed" style="position: relative; z-index: 2; text-align: center; width: 60px;">
+                            <div class="node-circle" style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--border-color); border: 2px solid white; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.75rem; color: white; font-weight: bold;"><i class="fa-solid fa-check"></i></div>
+                            <span style="font-size: 0.7rem; font-weight: 600; display: block; line-height: 1.2;">Confirmed</span>
+                        </div>
+                        <div class="track-node" id="nodeProcessing" style="position: relative; z-index: 2; text-align: center; width: 60px;">
+                            <div class="node-circle" style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--border-color); border: 2px solid white; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.75rem; color: white; font-weight: bold;"><i class="fa-solid fa-gears"></i></div>
+                            <span style="font-size: 0.7rem; font-weight: 600; display: block; line-height: 1.2;">Processing</span>
+                        </div>
+                        <div class="track-node" id="nodeShipped" style="position: relative; z-index: 2; text-align: center; width: 60px;">
+                            <div class="node-circle" style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--border-color); border: 2px solid white; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.75rem; color: white; font-weight: bold;"><i class="fa-solid fa-truck"></i></div>
+                            <span style="font-size: 0.7rem; font-weight: 600; display: block; line-height: 1.2;">Shipped</span>
+                        </div>
+                        <div class="track-node" id="nodeDelivered" style="position: relative; z-index: 2; text-align: center; width: 60px;">
+                            <div class="node-circle" style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--border-color); border: 2px solid white; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.75rem; color: white; font-weight: bold;"><i class="fa-solid fa-house-chimney"></i></div>
+                            <span style="font-size: 0.7rem; font-weight: 600; display: block; line-height: 1.2;">Delivered</span>
+                        </div>
+                    </div>
+                    <div id="specialStatusAlert" style="display: none; margin-top: 16px; padding: 8px 12px; background-color: #f8d7da; color: #721c24; border-radius: 6px; border: 1px solid #f5c6cb; font-size: 0.8rem; font-weight: 600; text-align: center;">
+                        This order is <span id="specialStatusText">Cancelled</span>.
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 0.85rem;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color); font-weight: bold; color: var(--text-primary); text-align: left;">
+                            <th style="padding: 8px 0;">Item Description</th>
+                            <th style="padding: 8px 0; text-align: right; width: 80px;">Price</th>
+                            <th style="padding: 8px 0; text-align: center; width: 60px;">Qty</th>
+                            <th style="padding: 8px 0; text-align: right; width: 100px;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invItemsBody">
+                        <!-- Rendered dynamically -->
+                    </tbody>
+                </table>
+
+                <!-- Summary & Totals -->
+                <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 16px; font-size: 0.85rem; margin-bottom: 20px;">
+                    <div style="max-width: 320px;">
+                        <p><strong>Shipping Address:</strong></p>
+                        <p id="invShippingAddr" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; line-height: 1.4;">House No, Street, PIN</p>
+                        <p style="margin-top: 12px;"><strong>Payment Mode:</strong> <span id="invPayMode">UPI</span></p>
+                        <p><strong>Payment Status:</strong> <span id="invPayStatus" style="font-weight: 700; color: var(--success-color);">Paid (Verified)</span></p>
+                        <p><strong>Transaction ID:</strong> <span id="invPayTxnId" style="font-family: monospace;">TXN-XXXXXX</span></p>
+                    </div>
+                    <div style="min-width: 200px; text-align: right; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Subtotal:</span>
+                            <span id="invSubtotal">₹0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>CGST (2.5%):</span>
+                            <span id="invCgst">₹0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>SGST (2.5%):</span>
+                            <span id="invSgst">₹0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-top: 2px solid var(--border-color); padding-top: 8px; font-weight: 700; font-size: 1rem; color: var(--accent-color);">
+                            <span>Total Paid:</span>
+                            <span id="invTotal">₹0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Actions buttons footer -->
+            <div id="invoiceActionsFooter" style="display: flex; gap: 12px; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 16px; flex-wrap: wrap;">
+                <!-- Customer actions (shown only for customer) -->
+                <div id="customerInvoiceActions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" id="btnCustomerCancelOrder" onclick="customerCancelOrder()" style="padding: 8px 14px; font-size: 0.82rem; font-weight: 600; border-radius: 6px; border: 1px solid #e74c3c; color: #e74c3c; background: none; cursor: pointer;">
+                        <i class="fa-solid fa-ban"></i> Cancel Order
+                    </button>
+                    <button type="button" id="btnCustomerReturnOrder" onclick="customerRequestReturn()" style="padding: 8px 14px; font-size: 0.82rem; font-weight: 600; border-radius: 6px; border: 1px solid #e67e22; color: #e67e22; background: none; cursor: pointer;">
+                        <i class="fa-solid fa-rotate-left"></i> Return
+                    </button>
+                    <button type="button" id="btnCustomerRefundOrder" onclick="customerRequestRefund()" style="padding: 8px 14px; font-size: 0.82rem; font-weight: 600; border-radius: 6px; border: 1px solid #8e44ad; color: #8e44ad; background: none; cursor: pointer;">
+                        <i class="fa-solid fa-money-bill-transfer"></i> Refund
+                    </button>
+                </div>
+                <!-- Admin + shared actions -->
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" class="btn btn-secondary" id="btnInvoiceDownload" onclick="downloadInvoice()" style="padding: 8px 16px; font-size: 0.85rem; font-weight: 600;">
+                        <i class="fa-solid fa-download"></i> Download Invoice
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btnInvoicePrint" style="padding: 8px 16px; font-size: 0.85rem; font-weight: 600;">
+                        <i class="fa-solid fa-print"></i> Print Invoice
+                    </button>
+                </div>
+            </div>
+        </div>
+    <!-- Edit Product Modal -->
+    <div class="admin-dashboard-overlay" id="editProductModal" style="display: none; z-index: 1200;">
+        <div class="admin-dashboard-container" style="max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto;">
+            <div class="admin-dashboard-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px;">
+                <h2 style="font-family: var(--header-font); color: var(--accent-color); margin: 0; font-size: 1.3rem;">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit Product
+                </h2>
+                <button type="button" class="admin-close-btn" onclick="closeEditProductModal()" aria-label="Close" style="background:none; border:none; font-size:1.5rem; color:var(--text-secondary); cursor:pointer;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="adminEditProductForm" onsubmit="handleUpdateProductSubmit(event)">
+                <input type="hidden" id="editProdId">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="editProdName" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Product Name <span style="color:var(--accent-color);">*</span></label>
+                    <input type="text" id="editProdName" required style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; box-sizing: border-box;">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+                    <div class="form-group">
+                        <label for="editProdCategory" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Category <span style="color:var(--accent-color);">*</span></label>
+                        <select id="editProdCategory" required style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; background:var(--bg-primary); color:var(--text-primary); box-sizing: border-box;"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProdPrice" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Price (₹) <span style="color:var(--accent-color);">*</span></label>
+                        <input type="number" id="editProdPrice" min="1" step="0.01" required style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; box-sizing: border-box;">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+                    <div class="form-group">
+                        <label for="editProdStock" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Stock Quantity <span style="color:var(--accent-color);">*</span></label>
+                        <input type="number" id="editProdStock" min="0" required style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; box-sizing: border-box;">
+                    </div>
+                    <div class="form-group">
+                        <label for="editProdRating" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Rating (1 - 5)</label>
+                        <input type="number" id="editProdRating" min="1" max="5" step="0.1" value="4.5" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; box-sizing: border-box;">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Product Image</label>
+                    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                        <img id="editProdImagePreview" src="" alt="Preview" style="width: 60px; height: 60px; border-radius: 6px; border: 1px solid var(--border-color); object-fit: cover;">
+                        <input type="file" id="editProdImageFile" accept="image/*" style="font-size: 0.85rem; flex: 1;">
+                    </div>
+                    <input type="text" id="editProdImageUrl" placeholder="Or enter image URL (e.g. images/hero_weaving.png)" style="width: 100%; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; box-sizing: border-box;">
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="editProdDescription" style="display:block; font-weight:600; margin-bottom:6px; font-size:0.85rem;">Description</label>
+                    <textarea id="editProdDescription" rows="3" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family:inherit; font-size:0.9rem; resize:vertical; box-sizing: border-box;"></textarea>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                    <button type="button" class="btn btn-danger" onclick="deleteCurrentEditProduct()" style="padding: 10px 18px; background: #e74c3c; color: #fff; border: none; border-radius: 6px; cursor: pointer;"><i class="fa-solid fa-trash-can"></i> Delete Product</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditProductModal()" style="padding: 10px 18px;">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="padding: 10px 20px;"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Comparison Drawer -->
+    <div id="comparisonDrawer" class="comparison-drawer">
+        <div class="comparison-header">
+            <h3 style="margin: 0; font-family: var(--header-font); font-size: 1.1rem; color: var(--text-primary);"><i class="fa-solid fa-code-compare"></i> Product Comparison</h3>
+            <button type="button" onclick="toggleComparisonDrawer(false)" style="background: none; border: none; font-size: 1.25rem; color: var(--text-secondary); cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="comparisonTableWrapper">
+            <!-- Table populated dynamically -->
+        </div>
+    </div>
+
+    <!-- Compare Products Modal -->
+    <div class="modal" id="compareModal" style="display: none; align-items: center; justify-content: center; z-index: 1100;">
+        <div class="modal-content" style="max-width: 800px; width: 90%; max-height: 85vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                <h3 style="margin: 0; font-family: var(--header-font); color: var(--accent-color); font-size: 1.3rem;"><i class="fa-solid fa-code-compare"></i> Compare Creations</h3>
+                <button type="button" onclick="closeCompareModal()" style="background: none; border: none; font-size: 1.25rem; color: var(--text-secondary); cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <tbody id="compareTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" aria-label="Scroll to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- JavaScript code -->
+    <script src="js/state.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/storefront.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

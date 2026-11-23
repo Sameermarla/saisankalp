@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Sankalp Secure Payment Gateway</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2C3E50;
+            --accent-color: #E74C3C;
+            --success-color: #2ECC71;
+            --warning-color: #F1C40F;
+            --text-primary: #2C3E50;
+            --text-secondary: #7F8C8D;
+            --bg-color: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .gateway-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .gateway-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: white;
+            padding: 30px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .gateway-header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .gateway-header p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .gateway-body {
+            padding: 30px 24px;
+        }
+
+        .merchant-badge {
+            background-color: #EBEDEF;
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+        }
+
+        .merchant-name {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .amount-display {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .amount-display .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .amount-display .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .details-grid {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            font-size: 0.85rem;
+        }
+
+        .detail-item span {
+            display: block;
+        }
+
+        .detail-item .lbl {
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .detail-item .val {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #BDC3C7;
+            color: var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #95a5a6;
+            transform: translateY(-1px);
+        }
+
+        /* Result Panel overlay */
+        .result-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+            text-align: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .result-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .result-success .result-icon {
+            color: var(--success-color);
+        }
+
+        .result-failed .result-icon {
+            color: var(--accent-color);
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .result-msg {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.6); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gateway-container" style="position: relative;">
+        <!-- Header -->
+        <div class="gateway-header">
+            <h1>Sai Sankalp Payments</h1>
+            <p><i class="fa-solid fa-lock"></i> Secure 3D Payment Authentication</p>
+        </div>
+
+        <!-- Body -->
+        <div class="gateway-body">
+            <div class="merchant-badge">
+                <span>Merchant</span>
+                <span class="merchant-name">Sai Sankalp Crafts</span>
+            </div>
+
+            <div class="amount-display">
+                <span class="label">Total Amount</span>
+                <span class="value" id="amountVal">₹0.00</span>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="lbl">Transaction ID</span>
+                    <span class="val" id="txnIdVal">N/A</span>
+                </div>
+                <div class="detail-item">
+                    <span class="lbl">Payment Mode</span>
+                    <span class="val">UPI / NetBanking</span>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" id="btnAuthorize">
+                    <i class="fa-solid fa-circle-check"></i> Authorize Payment (Success)
+                </button>
+                <button class="btn btn-danger" id="btnDecline">
+                    <i class="fa-solid fa-circle-xmark"></i> Decline Payment (Fail)
+                </button>
+                <button class="btn btn-secondary" id="btnCancel">
+                    <i class="fa-solid fa-ban"></i> Cancel Transaction
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Status Panel -->
+        <div class="result-overlay" id="resultOverlay">
+            <div id="loaderSection">
+                <div class="loader"></div>
+                <p style="font-weight: 600;">Processing request with bank...</p>
+            </div>
+            <div id="statusSection" style="display: none;">
+                <i class="result-icon fa-solid" id="statusIcon"></i>
+                <div class="result-title" id="statusTitle">Payment Success</div>
+                <p class="result-msg" id="statusMessage">Transaction has been authorized successfully. You can return to the merchant window now.</p>
+                <button class="btn btn-secondary" onclick="window.close()" style="max-width: 200px; margin: 0 auto;">Close Window</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const txnId = urlParams.get('txnId') || 'TXN-UNKNOWN';
+        const amount = urlParams.get('amount') || '0.00';
+        const isTest = urlParams.get('isTest') === 'true';
+
+        document.getElementById('txnIdVal').textContent = txnId;
+        document.getElementById('amountVal').textContent = '₹' + parseFloat(amount).toFixed(2);
+
+        if (isTest) {
+            document.querySelector('.gateway-header').style.background = 'linear-gradient(135deg, #e67e22 0%, #d35400 100%)';
+            document.querySelector('.gateway-header p').innerHTML = '<i class="fa-solid fa-flask"></i> Sandbox Test Mode Active';
+        }
+
+        const overlay = document.getElementById('resultOverlay');
+        const loaderSec = document.getElementById('loaderSection');
+        const statusSec = document.getElementById('statusSection');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusMessage = document.getElementById('statusMessage');
+
+        function triggerWebhook(status) {
+            overlay.classList.add('active');
+            loaderSec.style.display = 'block';
+            statusSec.style.display = 'none';
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-Webhook-Signature': 'SAI_SANKALP_WEBHOOK_SECRET_KEY_2026'
+            };
+            if (isTest) {
+                headers['X-Test-Mode'] = 'true';
+            }
+
+            // Send webhook status to server
+            fetch('/api/payments/webhook', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    transactionId: txnId,
+                    status: status
+                })
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                throw new Error("Webhook rejected");
+            })
+            .then(data => {
+                showResult(status, true);
+            })
+            .catch(err => {
+                console.warn("API Webhook failed, saving transaction state in local storage fallback:", err);
+                
+                // Fallback: Save local state in localStorage for client retrieval
+                localStorage.setItem("sai_sankalp_txn_" + txnId, status);
+                showResult(status, false);
+            });
+        }
+
+        function showResult(status, isOnline) {
+            loaderSec.style.display = 'none';
+            statusSec.style.display = 'block';
+
+            if (status === 'success') {
+                overlay.className = 'result-overlay active result-success';
+                statusIcon.className = 'result-icon fa-solid fa-circle-check';
+                statusTitle.textContent = 'Payment Authorized';
+                statusMessage.textContent = 'Payment was verified successfully. Your order is now processing ' + (isOnline ? 'on the server.' : 'offline.');
+            } else if (status === 'failed') {
+                overlay.className = 'result-overlay active result-failed';
+                statusIcon.className = 'result-icon fa-solid fa-circle-xmark';
+                statusTitle.textContent = 'Payment Declined';
+                statusMessage.textContent = 'The bank declined this transaction. Please try again.';
+            } else {
+                overlay.className = 'result-overlay active result-failed';
+                statusIcon.className = 'result-icon fa-solid fa-ban';
+                statusTitle.textContent = 'Transaction Cancelled';
+                statusMessage.textContent = 'You have cancelled the payment session.';
+            }
+        }
+
+        document.getElementById('btnAuthorize').addEventListener('click', () => triggerWebhook('success'));
+        document.getElementById('btnDecline').addEventListener('click', () => triggerWebhook('failed'));
+        document.getElementById('btnCancel').addEventListener('click', () => triggerWebhook('cancelled'));
+    </script>
+</body>
+</html>

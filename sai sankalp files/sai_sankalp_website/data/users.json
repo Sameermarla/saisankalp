@@ -1,0 +1,26 @@
+[
+  {
+    "email": "saisameermarla@gmail.com",
+    "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+    "verified": true,
+    "role": "admin"
+  },
+  {
+    "email": "saisameermaral@gmail.com",
+    "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+    "verified": true,
+    "role": "admin"
+  },
+  {
+    "email": "john@gmail.com",
+    "passwordHash": "b4b597c714a8f49103da4dab0266af0ee0ae4f8575250a84855c3d76941cd422",
+    "verified": true,
+    "role": "customer"
+  },
+  {
+    "email": "customer_test@gmail.com",
+    "passwordHash": "eaaa4a79c43019473cc37be32ede6ea36c962bdf821fafbecc573c6931f63ea7",
+    "verified": true,
+    "role": "customer"
+  }
+]

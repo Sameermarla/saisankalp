@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+bolt_project/project/node_modules/
+
+# Build output (generated, can rebuild)
+bolt_project/project/dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+data/*.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Generated artifacts (too large for git)
+*.zip
+uml_diagrams_preview/

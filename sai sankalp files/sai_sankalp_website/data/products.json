@@ -1,0 +1,118 @@
+[
+  {
+    "id": 6,
+    "title": "Crochet Woodland Fawn Doll",
+    "category": "doll",
+    "categoryName": "Woolen Doll",
+    "price": 950.00,
+    "rating": 4.9,
+    "reviews": 21,
+    "image": "images/wool_doll.png",
+    "description": "A whimsical woodland fawn, hand-crocheted (amigurumi style) with premium wool-acrylic blended yarn. Stuffed with love, featuring sleepy eyes and a tiny crocheted flower crown.",
+    "specs": {
+      "Height": "30 cm",
+      "Material": "60% Alpaca Wool, 40% Soft Acrylic",
+      "Filling": "Recycled eco-fiber stuffing",
+      "Care": "Gently hand wash in lukewarm water"
+    },
+    "addedBy": "system",
+    "addedAt": "2026-06-17T12:00:00Z",
+    "isDeleted": false,
+    "stock": 4
+  },
+  {
+    "id": 7,
+    "title": "Pressed Flower Journal",
+    "category": "paper",
+    "categoryName": "Paper Craft",
+    "price": 650.00,
+    "rating": 5.0,
+    "reviews": 0,
+    "image": "images/paper_journal.png",
+    "description": "An elegant, hand-bound diary crafted from recycled cotton rag paper. The cover features real pressed garden wildflowers, beautifully preserved. Ideal for sketching, writing, or pressed flower collections.",
+    "specs": {
+      "Material": "Handmade Craft",
+      "Care": "Handle with love"
+    },
+    "addedBy": "system",
+    "addedAt": "2026-06-17T12:00:00Z",
+    "isDeleted": false,
+    "stock": 18
+  },
+  {
+    "id": 10,
+    "title": "Hand-Embroidered Woolen Handkerchief",
+    "category": "kerchief",
+    "categoryName": "Woolen Handkerchief",
+    "price": 320.00,
+    "rating": 5.0,
+    "reviews": 0,
+    "image": "images/wool_kerchief.png",
+    "description": "A soft, premium woolen pocket square woven from fine merino wool. Features a delicate, hand-stitched floral emblem on the corner. Soft, warm, and highly functional for cold climates.",
+    "specs": {
+      "Material": "Handmade Craft",
+      "Care": "Handle with love"
+    },
+    "addedBy": "saisameermarla@gmail.com",
+    "addedAt": "2026-06-26T08:52:25Z",
+    "isDeleted": false,
+    "stock": 12
+  },
+  {
+    "id": 12,
+    "title": "Oliver the Knitted Bear Doll",
+    "category": "doll",
+    "categoryName": "Woolen Doll",
+    "price": 890.00,
+    "rating": 5.0,
+    "reviews": 0,
+    "image": "images/wool_doll.png",
+    "description": "Oliver is a lovable, cuddle-ready teddy bear doll hand-knitted from thick, chemical-free wool yarn. Features a cozy red knitted scarf. A wonderful heirloom toy or decorative accent.",
+    "specs": {
+      "Material": "Handmade Craft",
+      "Care": "Handle with love"
+    },
+    "addedBy": "saisameermarla@gmail.com",
+    "addedAt": "2026-06-26T12:13:22Z",
+    "isDeleted": false,
+    "stock": 7
+  },
+  {
+    "id": 14,
+    "title": "Quilled Floral Frame Art",
+    "category": "paper",
+    "categoryName": "Paper Craft",
+    "price": 1200.00,
+    "rating": 5.0,
+    "reviews": 0,
+    "image": "images/hero_crafts.png",
+    "description": "An intricate shadowbox art frame featuring three-dimensional quilled paper flowers. Meticulously rolled, shaped, and glued by hand using vibrant, fade-resistant artisan paper sheets.",
+    "specs": {
+      "Material": "Handmade Craft",
+      "Care": "Handle with love"
+    },
+    "addedBy": "saisameermarla@gmail.com",
+    "addedAt": "2026-06-26T13:10:39Z",
+    "isDeleted": false,
+    "stock": 3
+  },
+  {
+    "id": 16,
+    "title": "Sage Lace Woolen Handkerchief",
+    "category": "kerchief",
+    "categoryName": "Woolen Handkerchief",
+    "price": 380.00,
+    "rating": 5.0,
+    "reviews": 0,
+    "image": "images/wool_kerchief.png",
+    "description": "Woven wool handkerchief in a rich cream base, framed with hand-crocheted cotton lace borders in sage green. A premium vintage-inspired design that makes a memorable gift.",
+    "specs": {
+      "Material": "Handmade Craft",
+      "Care": "Handle with love"
+    },
+    "addedBy": "saisameermarla@gmail.com",
+    "addedAt": "2026-06-26T13:12:25Z",
+    "isDeleted": false,
+    "stock": 25
+  }
+]

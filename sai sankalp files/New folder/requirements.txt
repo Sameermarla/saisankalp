@@ -1,0 +1,7 @@
+admin requirements:
+
+.adding of new products and deletion of products
+.review business analytics
+.order management(accepting products, declining of products, automated delivery date setup, no.of items ordered, shipping address)
+.coupons & banners
+.payment gateway(razor pay) 

@@ -1,0 +1,22 @@
+{
+  "CRAFT10": {
+    "type": "percent",
+    "value": 10,
+    "label": "10% off your order"
+  },
+  "GIFT20": {
+    "type": "percent",
+    "value": 20,
+    "label": "20% gift discount"
+  },
+  "WELCOME15": {
+    "type": "percent",
+    "value": 15,
+    "label": "15% welcome discount"
+  },
+  "ARTISAN25": {
+    "type": "percent",
+    "value": 25,
+    "label": "25% artisan special"
+  }
+}
